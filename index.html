@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dustin S. Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: left-aligned column. A huge name sits over a dot field that reacts to the pointer; below it, content rows with a mono label rail on the left. Boldness lives in the name and the dot field only. */
+/*CSS layouts and animations */
+:root {
+  --bg: #EEF1F5;
+  --surface: #E3E8EF;
+  --fg: #12161D;
+  --muted: #536071;
+  --line: #CBD3DE;
+  --accent: #2A3BFF;
+  --dot: #BAC3D1;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1117;
+    --surface: #161B24;
+    --fg: #E8ECF3;
+    --muted: #97A3B6;
+    --line: #263041;
+    --accent: #8C9AFF;
+    --dot: #263041;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1117;
+  --surface: #161B24;
+  --fg: #E8ECF3;
+  --muted: #97A3B6;
+  --line: #263041;
+  --accent: #8C9AFF;
+  --dot: #263041;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  padding-block: 24px 56px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 1040px; margin-inline: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+::selection { background: var(--accent); color: var(--bg); }
+
+/* top bar */
+.top {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px;
+  font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.02em; color: var(--muted);
+}
+.top nav { display: flex; flex-wrap: wrap; gap: 4px 20px; }
+.top a { text-decoration: none; padding-block: 4px; border-bottom: 1px solid transparent; }
+.top a:hover { color: var(--fg); border-bottom-color: var(--accent); }
+.status { display: inline-flex; align-items: center; gap: 8px; color: var(--fg); }
+.status i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .status i { animation: ping 2.4s ease-in-out infinite; }
+  @keyframes ping { 0%,100% { box-shadow: 0 0 0 0 transparent; } 50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 22%, transparent); } }
+}
+
+/* hero */
+.hero { position: relative; padding-block: clamp(48px, 9vw, 112px) clamp(40px, 7vw, 80px); isolation: isolate; }
+#field { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.hero h1 {
+  font-family: var(--font-display); font-weight: 800; font-size: clamp(3.5rem, 15vw, 9.5rem);
+  line-height: 0.9; letter-spacing: -0.045em; margin: 0; text-wrap: balance;
+}
+.hero h1 span { display: block; }
+.hero h1 span + span { color: var(--accent); }
+.role {
+  font-family: var(--font-mono); font-size: 0.875rem; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--muted); margin: 28px 0 0;
+}
+.lede { font-size: clamp(1.15rem, 2.4vw, 1.5rem); line-height: 1.45; max-width: 36em; margin: 12px 0 0; text-wrap: pretty; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.btn {
+  font-family: var(--font-mono); font-size: 0.875rem; text-decoration: none; padding: 12px 18px;
+  border: 1px solid var(--fg); border-radius: 2px; background: var(--bg); color: var(--fg); cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.btn:hover { background: var(--fg); color: var(--bg); }
+.btn.solid { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn.solid:hover { background: var(--fg); border-color: var(--fg); }
+
+/* sections */
+section { border-top: 1px solid var(--line); padding-block: 40px 48px; display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 16px 32px; }
+section > h2 {
+  font-family: var(--font-mono); font-weight: 500; font-size: 0.8125rem; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--muted); margin: 6px 0 0;
+}
+.body { min-width: 0; }
+.body p { margin: 0 0 1em; max-width: 38em; text-wrap: pretty; }
+.body p:last-child { margin-bottom: 0; }
+@media (max-width: 720px) { section { grid-template-columns: minmax(0, 1fr); } section > h2 { margin: 0; } }
+
+/* work */
+.projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.proj { padding-block: 24px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; }
+.proj:first-child { padding-top: 0; }
+.proj:last-child { border-bottom: 0; padding-bottom: 0; }
+.proj header { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px; }
+.proj h3 {
+  font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 3.4vw, 2.1rem);
+  letter-spacing: -0.02em; line-height: 1.1; margin: 0; transition: transform 0.2s ease, color 0.2s ease;
+}
+.proj:hover h3 { color: var(--accent); }
+@media (prefers-reduced-motion: no-preference) { .proj:hover h3 { transform: translateX(8px); } }
+.year { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.proj p { margin: 0; color: var(--muted); max-width: 40em; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 4px 0 0; padding: 0; }
+.tags li, .chips li {
+  font-family: var(--font-mono); font-size: 0.75rem; padding: 3px 8px; border: 1px solid var(--line);
+  border-radius: 2px; background: var(--surface);
+}
+.repo { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--accent); overflow-wrap: anywhere; }
+
+/* changelog */
+.log { margin: 0; padding: 0; list-style: none; display: grid; gap: 28px; }
+.log li { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 4px 24px; }
+.ver { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; padding-top: 5px; }
+.ver b { display: block; color: var(--accent); font-weight: 500; }
+.log h3 { font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; letter-spacing: -0.01em; margin: 0; line-height: 1.3; }
+.log h3 small { font-family: var(--font-body); font-weight: 400; font-size: 1rem; color: var(--muted); letter-spacing: 0; }
+.log p { margin: 4px 0 0; color: var(--muted); max-width: 38em; }
+@media (max-width: 560px) { .log li { grid-template-columns: minmax(0, 1fr); } .ver { padding-top: 0; } .ver b { display: inline; margin-right: 10px; } }
+
+/* stack */
+.stack { display: grid; gap: 18px; margin: 0; }
+.stack div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 8px 24px; align-items: baseline; }
+.stack dt { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); }
+.stack dd { margin: 0; }
+.chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.chips li { font-size: 0.8125rem; padding: 5px 10px; }
+@media (max-width: 560px) { .stack div { grid-template-columns: minmax(0, 1fr); } }
+
+/* contact */
+.contact h3 {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -0.04em; line-height: 0.95;
+  font-size: clamp(2.5rem, 9vw, 5.5rem); margin: 0 0 20px;
+}
+.mail { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 20px; }
+.mail code { font-family: var(--font-mono); font-size: clamp(1rem, 2.6vw, 1.375rem); overflow-wrap: anywhere; user-select: all; }
+.links { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-family: var(--font-mono); font-size: 0.875rem; color: var(--muted); }
+.links span { color: var(--fg); display: inline-block; min-width: 88px; }
+
+footer { border-top: 1px solid var(--line); padding-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="status"><i aria-hidden="true"></i>Open to work</span>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#changelog">Changelog</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <div class="hero" id="hero">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <h1><span>Dustin</span><span>Salvaloza</span></h1>
+    <p class="role">Software developer · Quezon City, Philippines</p>
+    <p class="lede">I build web and backend software that people use every day. Former software engineering intern, now looking for my first full-time role.</p>
+    <div class="cta">
+      <a class="btn solid" href="#work">See my work</a>
+      <a class="btn" href="#contact">Get in touch</a>
+    </div>
+  </div>
+
+  <section id="work">
+    <h2>Selected work</h2>
+    <div class="body">
+      <ul class="projects">
+        <li class="proj">
+          <header><h3>Budget Buddy</h3><span class="year">2026</span></header>
+          <p>An expense tracker that turns a month of messy transactions into a weekly summary. Used daily by 40 classmates during a semester.</p>
+          <ul class="tags"><li>React</li><li>Node.js</li><li>PostgreSQL</li></ul>
+          <span class="repo">github.com/yourname/budget-buddy</span>
+        </li>
+        <li class="proj">
+          <header><h3>Queue Up</h3><span class="year">2025</span></header>
+          <p>A real-time queue board for small clinics. Patients join from their phone and see their place update live, so the waiting room stays empty.</p>
+          <ul class="tags"><li>TypeScript</li><li>WebSockets</li><li>Redis</li></ul>
+          <span class="repo">github.com/yourname/queue-up</span>
+        </li>
+        <li class="proj">
+          <header><h3>Trailnotes</h3><span class="year">2024</span></header>
+          <p>An offline-first notes app for hikers. Notes and photos are saved on the device and sync once the signal comes back.</p>
+          <ul class="tags"><li>React Native</li><li>SQLite</li><li>Expo</li></ul>
+          <span class="repo">github.com/yourname/trailnotes</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About</h2>
+    <div class="body">
+      <p>I like small, readable code and clear commit messages. During my internship I shipped features to real customers, wrote tests for them, and learned how to review code and take a review well.</p>
+      <p>I'm most comfortable across the stack, from the database schema to the button on the screen. Outside of work I joined running clubs, gym, cook, basketball, and love going out alone.</p>
+    </div>
+  </section>
+
+  <section id="changelog">
+    <h2>Changelog</h2>
+    <div class="body">
+      <ol class="log" reversed>
+        <li>
+          <div class="ver"><b>v4.0</b>Now</div>
+          <div><h3>Looking for a Data Entry role</h3><p>Open to full-time data entry roles. Careful, fast and reliable, with a background in software that helps me work confidently in spreadsheets, databases and internal systems.</p></div>
+        </li>
+        <li>
+        <li>
+          <div class="ver"><b>v3.0</b>Now</div>
+          <div><h3>Looking for a UI/UX Designer role</h3><p>Open to full-time roles in web design. Available to start soon.</p></div>
+        </li>
+        <li>
+          <div class="ver"><b>v2.0</b>2024</div>
+          <div><h3>Software Engineering Intern <small>at IA-Innovations</small></h3><p>Built and shipped customer-facing features, fixed production bugs, and wrote the tests that kept them fixed. Worked in a team of six with weekly releases.</p></div>
+        </li>
+        <li>
+          <div class="ver"><b>v1.0</b>2020 – 2024</div>
+          <div><h3>BS Computer Science <small>at Technological Institute of the Philippines</small></h3><p>Focused on software engineering, databases, and distributed systems. Capstone project: A Real-Time Tomato Leaf Disease Detection and Classification using GoogleNet and MobileNet.</p></div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2>Stack</h2>
+    <div class="body">
+      <dl class="stack">
+        <div><dt>Data entry</dt><dd><ul class="chips"><li>Excel</li><li>Google Sheets</li><li>Data cleaning</li><li>Proofreading</li><li>Fast, accurate typing</li></ul></dd></div>
+        <div><dt>Languages</dt><dd><ul class="chips"><li>JavaScript</li><li>TypeScript</li><li>Python</li><li>Java</li><li>SQL</li></ul></dd></div>
+        <div><dt>Frameworks</dt><dd><ul class="chips"><li>Figma</li><li>Wireframing</li><li>React</li><li>Node.js</li><li>React Native</li></ul></dd></div>
+        <div><dt>Tools</dt><dd><ul class="chips"><li>Git</li><li>PostgreSQL</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>GitHub Actions</li></ul></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    <div class="body">
+      <h3>Let's build something.</h3>
+      <div class="mail">
+        <code id="email">salvaloza.jhun12@gmail.com</code>
+        <button class="btn" id="copy" type="button">Copy email</button>
+      </div>
+      <ul class="links">
+        <li><span>LinkedIn</span>linkedin.com/in/dustin-salvaloza</li>
+        <li><span>GitHub</span>github.com/yourname</li>
+        <li><span>Resume</span>Available on request</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Dustin Salvaloza</span>
+    <span>Hand-built with HTML, CSS and a little canvas</span>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var hero = document.getElementById('hero');
+  var cv = document.getElementById('field');
+  var ctx = cv.getContext('2d');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var gap = 28, R = 150;
+  var w = 0, h = 0;
+  var px = -9999, py = -9999, tx = -9999, ty = -9999, raf = 0;
+
+  function css(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    var dot = css('--dot'), acc = css('--accent');
+    for (var y = gap / 2; y < h; y += gap) {
+      for (var x = gap / 2; x < w; x += gap) {
+        var dx = x - px, dy = y - py;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        var t = d < R ? 1 - d / R : 0;
+        ctx.beginPath();
+        if (t > 0.02) { ctx.fillStyle = acc; ctx.globalAlpha = 0.3 + 0.7 * t; }
+        else { ctx.fillStyle = dot; ctx.globalAlpha = 1; }
+        ctx.arc(x, y, 1.4 + t * 3.4, 0, 6.2832);
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  function size() {
+    var r = hero.getBoundingClientRect();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = r.width; h = r.height;
+    cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+    cv.style.width = w + 'px'; cv.style.height = h + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  function tick() {
+    px += (tx - px) * 0.18; py += (ty - py) * 0.18;
+    draw();
+    if (Math.abs(tx - px) + Math.abs(ty - py) > 0.5) { raf = requestAnimationFrame(tick); }
+    else { raf = 0; }
+  }
+
+  function move(e) {
+    if (reduce.matches) return;
+    var r = hero.getBoundingClientRect();
+    tx = e.clientX - r.left; ty = e.clientY - r.top;
+    if (px < -1000) { px = tx; py = ty; }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function leave() {
+    tx = -9999; ty = -9999; px = -9999; py = -9999;
+    if (raf) { cancelAnimationFrame(raf); raf = 0; }
+    draw();
+  }
+
+  hero.addEventListener('pointermove', move);
+  hero.addEventListener('pointerleave', leave);
+  window.addEventListener('resize', size);
+  if (window.ResizeObserver) new ResizeObserver(size).observe(hero);
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(size);
+  size();
+
+  var btn = document.getElementById('copy');
+  var mail = document.getElementById('email');
+  btn.addEventListener('click', function () {
+    var text = mail.textContent;
+    function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy email'; }, 1600); }
+    function fallback() {
+      var range = document.createRange(); range.selectNodeContents(mail);
+      var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      btn.textContent = 'Press Ctrl+C';
+      setTimeout(function () { btn.textContent = 'Copy email'; }, 2400);
+    }
+    try {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } catch (err) { fallback(); }
+  });
+})();
+</script>
+
+</html>
